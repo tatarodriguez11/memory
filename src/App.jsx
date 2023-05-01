@@ -11,17 +11,16 @@ function App() {
   const [alreadyLoaded, setAlreadyLoaded] = useState(null)
   const [cardsToShow, setCardsToShow] = useState([])
   const [flippedCards, setFlippedCards] = useState([]);
-  const [matchedCards, setMatchedCards] = useState([]);
   const [twoCardsFlipped, setTwoCardsFlipped] = useState(false);
   const [clickedCard, setClickedCard] = useState(null)
 
   useEffect(()=>{
-    // setAlreadyLoaded(localStorage.getItem("first_time"))
+    setAlreadyLoaded(localStorage.getItem("first_time"))
     if (cardsToShow.length === 0) {
       
       getCardsToShow()
     }
-  },[])
+  },[alreadyLoaded])
   
   useEffect(()=>{
     if (cardsToShow.length === 0) {
@@ -49,16 +48,15 @@ function App() {
         }, 1000)
       } else {
         setHits(hits + 1)
-        const matchedCards = cardsToShow.map((card) => {
+        const newCardsWithMatchedOnes = cardsToShow.map((card) => {
           if (card.id === flippedCards[0].id || card.id === flippedCards[1].id) {
             return { ...card, matched: true, isFlipped: true };
           }
           return { ...card };
         });
-        setCardsToShow(matchedCards);
+        setCardsToShow(newCardsWithMatchedOnes);
         clearFlippedCardsArr();
         setTwoCardsFlipped(false);
-
       }
     }
   }, [twoCardsFlipped])
@@ -93,10 +91,6 @@ function App() {
 
   function handleCardClick(selected) {
     setClickedCard({...selected, isFlipped: true})
-    // Ignore clicks on matched cards
-    if (matchedCards.includes(selected)) {
-      return;
-    }
     // Ignore clicks on the same card twice
     if (flippedCards.length === 1 && flippedCards[0].id === selected.id) {
       return;
@@ -111,9 +105,9 @@ function App() {
     <div className='w-full flex justify-center items-center flex-col'>
       <h1>Memory game!</h1>
       <h2>Errores {errors} - Aciertos {hits}</h2>
-      {/* {!alreadyLoaded ? 
+      {!alreadyLoaded ? 
         <Welcome handleClick={handleClick}/> 
-      : */}
+      :
       <div className="grid-cols-5 bg-white h-inherit w-inherit grid gap-4 grid-rows-auto mt-12 min-w-[38rem] max-w-sm">
         {
           cardsToShow.map(card =>{
@@ -127,7 +121,7 @@ function App() {
           })
         }
       </div>
-      {/* } */}
+      }
     </div>
   )
 }

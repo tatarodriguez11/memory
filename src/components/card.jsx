@@ -3,12 +3,13 @@ import { useState } from "react";
 export function Card({img, title, handleClick, isFlipped, matched}) {
 
   return(
-    <div className="w-38 h-20 flex cursor-pointer" onClick={handleClick}>
+    <div className="w-38 h-20 flex cursor-pointer" >
       {
         isFlipped? 
         <img className="bg-center bg-cover bg-no-repeat bg-clip-border w-full h-full max-w-[100%]" src={img} alt={title} />
         :
         <div 
+        onClick={handleClick}
         className="w-full h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-4xl text-white flex justify-center items-center font-bold">
         ?
         </div>
