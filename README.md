@@ -12,3 +12,16 @@ If you want to skip all these steps and just enjoy the game, I invite you to vis
 
 
 This project was deployed thanks to Netlify, since it will be a static page and it is easy to integrate with GitHub. If you have questions about how to do it, please read the following article: https://geekflare.com/es/deploy-frontend-app-to-netlify/
+
+------
+
+To improve:
+
+- Add both unit and end-to-end tests, using Jest, Cypress or Playwright, or similars.
+- Improve the design with the help of a designer.
+- Improve appearance for small devices.
+- Implement explanatory class names to each of the elements that make up the components following a standard such as BEM; At the moment it was not done because the className could be very long because Tailwind is being used.
+- Add elements that improve accessibility for people with vision problems.
+- Improve the visual of some images that look stretched, due to how they should be adapted to the measurements placed.
+
+All thing to improve mentioned above will improve the appearance of the app and will help in maintenance of it; however, as it's a test, you won't find them inside the code for the moment. If you want to add some of this identified improvements, feel free to request acces to add them.
