@@ -21,66 +21,70 @@ function App() {
       
       getCardsToShow()
     }
-    console.log('getCardsToShow');
   },[])
   
   useEffect(()=>{
-    console.log('set cards to show');
     if (cardsToShow.length === 0) {
       setCardsToShow(cards)
     }
   }, [cards])
 
   useEffect(()=>{
-    console.log('two cards flipped');
     // Check if the flipped cards have the same image
-    const areSame = flippedCards[0]?.url === flippedCards[1]?.url;
-    console.log('aresame', areSame);
-    if (areSame) {
-      // Set the cards as matched
-      setHits(hits+1)
-      const matchedCards = cardsToShow.map((card) => {
-        if (card.id === flippedCards[0].id || card.id === flippedCards[1].id) {
-          return { ...card, matched: true, isFlipped: true };
-        }
-        return { ...card };
-      });
-      setCardsToShow(matchedCards);
-    } else {
-      console.log('same', areSame, flippedCards);
-      setErrors(errors + 1)
-      // Flip the cards back over
-      setTimeout(()=>{
-        console.log('entra al log');
-        const unflippedCards = cardsToShow.map((card) => {
-          if (card.id === flippedCards[0]?.id || card.id === flippedCards[1]?.id) {
-            return { ...card, isFlipped: false };
+    if (!!twoCardsFlipped) {
+      const areSame = flippedCards[0]?.url === flippedCards[1]?.url;
+      if (!areSame) {
+        setErrors(errors + 1)
+        setTimeout(()=>{
+  
+          const unflippedCards = cardsToShow.map((card) => {
+            if (card.id === flippedCards[0]?.id || card.id === flippedCards[1]?.id) {
+              return { ...card, isFlipped: false };
+            }
+            return { ...card };
+          });
+          setCardsToShow(unflippedCards);
+          clearFlippedCardsArr();
+          setTwoCardsFlipped(false);
+        }, 1000)
+      } else {
+        setHits(hits + 1)
+        const matchedCards = cardsToShow.map((card) => {
+          if (card.id === flippedCards[0].id || card.id === flippedCards[1].id) {
+            return { ...card, matched: true, isFlipped: true };
           }
           return { ...card };
         });
-        setCardsToShow(unflippedCards);
-      },1000)
+        setCardsToShow(matchedCards);
+        clearFlippedCardsArr();
+        setTwoCardsFlipped(false);
+
+      }
     }
   }, [twoCardsFlipped])
+
+  const clearFlippedCardsArr = () => {
+    setFlippedCards([]);
+  }
   
   useEffect(()=>{
-    console.log('flipped cards', flippedCards);
-    if (flippedCards.length === 1) {
-      setTwoCardsFlipped(true)
-    } else {
+    if (flippedCards.length > 0) {
+      
       // Flip the clicked card
       const newCards = cardsToShow.map((card) => {
-        if (card.id === clickedCard.id) {
+        if (card?.id === clickedCard?.id) {
           return { ...card, isFlipped: true };
         }
         return { ...card };
       });
-
+  
       setCardsToShow(newCards);
+  
+      if (flippedCards.length === 2) {
+        setTwoCardsFlipped(true)
+      }
     }
   }, [flippedCards])
-
-  console.log('volvio a renderizar');
   
 
   const handleClick = () => {
@@ -88,21 +92,17 @@ function App() {
   }
 
   function handleCardClick(selected) {
-    setClickedCard(selected)
-    console.log(selected);
+    setClickedCard({...selected, isFlipped: true})
     // Ignore clicks on matched cards
     if (matchedCards.includes(selected)) {
       return;
     }
-
     // Ignore clicks on the same card twice
     if (flippedCards.length === 1 && flippedCards[0].id === selected.id) {
       return;
     }
-    
-    // console.log('new crds', newCards);
     // Check if two cards are flipped
-    setFlippedCards([selected, ...flippedCards]);
+    setFlippedCards([{...selected, isFlipped: true}, ...flippedCards]);
     
   }
  
