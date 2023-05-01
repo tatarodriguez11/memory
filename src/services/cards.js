@@ -4,14 +4,11 @@ export const getCards = async () =>{
     const json = await response.json()
     const cards = json.entries
 
-    // console.log('entries', cards);
     const showCards = cards?.map((card, index) => ({
       id: card?.fields?.image?.uuid+index,
       url: card?.fields?.image?.url,
-      title: card?.fields?.image?.title,
-      // isFlipped: false
+      title: card?.fields?.image?.title
     }))
-    console.log(showCards);
     return showCards
   } catch (error) {
     throw new Error('Error looking for cards')

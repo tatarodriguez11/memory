@@ -3,6 +3,7 @@ import { useCards } from './hooks/useCards'
 import './App.css'
 import { Welcome } from './components/welcome'
 import {Card} from './components/card'
+import { Congrats } from './components/congrats'
 
 function App() {
   const [errors, setErrors] = useState(0)
@@ -13,6 +14,7 @@ function App() {
   const [flippedCards, setFlippedCards] = useState([]);
   const [twoCardsFlipped, setTwoCardsFlipped] = useState(false);
   const [clickedCard, setClickedCard] = useState(null)
+  const [userName, setUserName] = useState('');
 
   useEffect(()=>{
     setAlreadyLoaded(localStorage.getItem("first_time"))
@@ -67,7 +69,6 @@ function App() {
   
   useEffect(()=>{
     if (flippedCards.length > 0) {
-      
       // Flip the clicked card
       const newCards = cardsToShow.map((card) => {
         if (card?.id === clickedCard?.id) {
@@ -85,9 +86,7 @@ function App() {
   }, [flippedCards])
   
 
-  const handleClick = () => {
-    setAlreadyLoaded(localStorage.setItem("first_time","1"));
-  }
+  
 
   function handleCardClick(selected) {
     setClickedCard({...selected, isFlipped: true})
@@ -99,28 +98,46 @@ function App() {
     setFlippedCards([{...selected, isFlipped: true}, ...flippedCards]);
     
   }
+
+  const handleInputChange = (event) =>{
+    setUserName(event.target.value)
+  }
+
+  const handleWelcomeClick = () => {
+    if (userName.length > 0) {
+      setAlreadyLoaded(localStorage.setItem("first_time","1"));
+      localStorage.setItem("user_name", userName)
+    }
+  }
  
+  const handleRestartClick = () => {
+    localStorage.clear();
+    location.reload()
+  }
 
   return (
     <div className='w-full flex justify-center items-center flex-col'>
-      <h1>Memory game!</h1>
-      <h2>Errores {errors} - Aciertos {hits}</h2>
+      <h1 className='drop-shadow-lg shadow-white text-7xl font-bold text-white'>Memory game!</h1>
+      <h2 className='mt-4 text-lg'>Errores {errors} - Aciertos {hits}</h2>
       {!alreadyLoaded ? 
-        <Welcome handleClick={handleClick}/> 
+        <Welcome handleClick={handleWelcomeClick} handleInputChange={handleInputChange}/> 
       :
-      <div className="grid-cols-5 bg-white h-inherit w-inherit grid gap-4 grid-rows-auto mt-12 min-w-[38rem] max-w-sm">
+      <div className="grid-cols-5 h-inherit w-inherit grid gap-4 grid-rows-auto mt-8 min-w-[38rem] max-w-sm">
         {
           cardsToShow.map(card =>{
             return <Card 
+            key={card.id}
             img={card?.url} 
             title={card?.title}
             isFlipped={card.isFlipped}
             handleClick={()=>handleCardClick(card)}
-            matched={card.matched}
             />
           })
         }
       </div>
+      }
+      {
+        hits === 1 && <Congrats userName={userName} handleClick={handleRestartClick} />
       }
     </div>
   )
