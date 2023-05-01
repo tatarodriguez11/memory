@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useCards } from './hooks/useCards'
 import './App.css'
 import { Welcome } from './components/welcome'
-import {Card} from './components/card'
+import {Card, ListOfCards} from './components/card'
 import { Congrats } from './components/congrats'
 
 function App() {
@@ -122,22 +122,10 @@ function App() {
       {!alreadyLoaded ? 
         <Welcome handleClick={handleWelcomeClick} handleInputChange={handleInputChange}/> 
       :
-      <div className="grid-cols-5 h-inherit w-inherit grid gap-4 grid-rows-auto mt-8 min-w-[38rem] max-w-sm">
-        {
-          cardsToShow.map(card =>{
-            return <Card 
-            key={card.id}
-            img={card?.url} 
-            title={card?.title}
-            isFlipped={card.isFlipped}
-            handleClick={()=>handleCardClick(card)}
-            />
-          })
-        }
-      </div>
+        <ListOfCards cards={cardsToShow} handleClick={handleCardClick}/>
       }
       {
-        hits === 1 && <Congrats userName={userName} handleClick={handleRestartClick} />
+        hits === 20 && <Congrats userName={userName} handleClick={handleRestartClick} />
       }
     </div>
   )

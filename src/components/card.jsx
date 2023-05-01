@@ -22,13 +22,19 @@ export function NoCards() {
   )
 }
 
-export function ListOfCards({cards, flippedCards, setFlippedCards}){
+export function ListOfCards({cards, handleClick}){
   const hasCards = cards?.length > 0;
   return hasCards ? 
-  <div className="grid-cols-5 bg-white h-inherit w-inherit grid gap-4 grid-rows-auto mt-12 min-w-[38rem] max-w-sm">
+  <div className="grid-cols-5 h-inherit w-inherit grid gap-4 grid-rows-auto mt-8 min-w-[38rem] max-w-sm">
     {
       cards.map(card =>{
-        return <Card img={card?.fields?.image?.url} title={card?.fields?.image?.title} id={card?.fields?.image?.uuid} flippedCards={flippedCards} setFlippedCards={setFlippedCards}/>
+        return <Card 
+        key={card.id}
+        img={card?.url} 
+        title={card?.title}
+        isFlipped={card.isFlipped}
+        handleClick={()=>handleClick(card)}
+        />
       })
     }
   </div>
