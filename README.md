@@ -23,5 +23,9 @@ To improve:
 - Implement explanatory class names to each of the elements that make up the components following a standard such as BEM; At the moment it was not done because the className could be very long because Tailwind is being used. However; I was trying to show a little of the usage of BEM inside the component welcome.
 - Add elements that improve accessibility for people with vision problems.
 - Improve the visual of some images that look stretched, due to how they should be adapted to the measurements placed.
+- Block clicks while we validate if the cards match
+- Review correct charge of the page on android devices for restart game
 
 All thing to improve mentioned above will improve the appearance of the app and will help in maintenance of it; however, as it's a test, you won't find them inside the code for the moment. If you want to add some of this identified improvements, feel free to request acces to add them.
+
+Also, if you notice other improvement and it's not listed, feel free to let me know it.
