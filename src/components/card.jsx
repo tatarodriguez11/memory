@@ -1,7 +1,7 @@
 export function Card({img, title, handleClick, isFlipped}) {
 
   return(
-    <div className="w-38 h-20 flex cursor-pointer" >
+    <div className="w-16 lg:w-28 h-20 flex cursor-pointer" >
       {
         isFlipped? 
         <img className="bg-center bg-cover bg-no-repeat bg-clip-border w-full h-full max-w-[100%] shadow-lg shadow-white/50" src={img} alt={title} />
@@ -25,7 +25,7 @@ export function NoCards() {
 export function ListOfCards({cards, handleClick}){
   const hasCards = cards?.length > 0;
   return hasCards ? 
-  <div className="grid-cols-5 h-inherit w-inherit grid gap-4 grid-rows-auto mt-8 min-w-[38rem] max-w-sm">
+  <div className="cardsList grid-cols-5 h-inherit w-inherit grid gap-4 grid-rows-auto mt-8 min-w-[38rem] max-w-sm">
     {
       cards.map(card =>{
         return <Card 

@@ -116,9 +116,9 @@ function App() {
   }
 
   return (
-    <div className='w-full flex justify-center items-center flex-col'>
-      <h1 className='drop-shadow-lg shadow-white text-7xl font-bold text-white'>Memory game!</h1>
-      <h2 className='mt-4 text-lg'>Errores {errors} - Aciertos {hits}</h2>
+    <div className='main w-full flex justify-center items-center flex-col'>
+      <h1 className='main__title drop-shadow-lg shadow-white text-7xl font-bold text-white'>Memory game!</h1>
+      <h2 className='main__counter mt-4 text-lg'>Errores {errors} - Aciertos {hits}</h2>
       {!alreadyLoaded ? 
         <Welcome handleClick={handleWelcomeClick} handleInputChange={handleInputChange}/> 
       :
